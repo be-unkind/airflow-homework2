@@ -43,6 +43,8 @@ services:
     extends:
       file: common-docker-compose.yaml
       service: airflow-init
+    environment:
+      _PIP_ADDITIONAL_REQUIREMENTS: "requests beautifulsoup4 easyocr"
 
   airflow-cli:
     extends:
