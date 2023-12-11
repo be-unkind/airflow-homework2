@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  postgres:
+    extends:
+      file: common-docker-compose.yaml
+      service: postgres
+    ports:
+      - "5432:5432" 
+
+  redis:
+    extends:
+      file: common-docker-compose.yaml
+      service: redis
+
+  airflow-webserver:
+    extends: 
+      file: common-docker-compose.yaml
+      service: airflow-webserver
+    ports: 
+      - "8080:8080"
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+
+  airflow-scheduler:
+    extends: 
+      file: common-docker-compose.yaml
+      service: airflow-scheduler
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    
+  airflow-worker:
+    extends: 
+      file: common-docker-compose.yaml
+      service: airflow-worker
+
+  airflow-triggerer:
+    extends:
+      file: common-docker-compose.yaml
+      service: airflow-triggerer
+
+  airflow-init:
+    extends:
+      file: common-docker-compose.yaml
+      service: airflow-init
+
+  airflow-cli:
+    extends:
+      file: common-docker-compose.yaml
+      service: airflow-cli
+
+  flower:
+    extends:
+      file: common-docker-compose.yaml
+      service: flower
+
+  new-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes: 
+    - new-db-volume:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - "5432:5432" 
+
+  
